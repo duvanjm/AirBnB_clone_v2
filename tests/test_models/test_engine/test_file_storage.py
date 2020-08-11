@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
-from models.base_model import BaseModel
-from console import HBNBCommand as hbnb
-from models import storage
 import os
 import io
 import sys
 import json
+from console import HBNBCommand as hbnb
+from models.base_model import BaseModel
+from models import storage
 
 
 class test_fileStorage(unittest.TestCase):
@@ -111,20 +111,3 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
-
-    def test_kwargs_create(self):
-        """ """
-        console = hbnb()
-        captured_output = io.StringIO()
-        sys.stdout = captured_output
-
-        obj_id = console.onecmd('create City name="NAME"')
-        sys.stdout = sys.__stdout__
-
-        with open('file.json', encoding='UTF-8') as file_obj:
-            json_dict = json.load(file_obj)
-
-            for key, value in json_dict.items():
-                obj_key = 'City.' + str(obj_id)
-                if key == obj_key:
-                    self.assertTrue(value['name'] == 'NAME')
