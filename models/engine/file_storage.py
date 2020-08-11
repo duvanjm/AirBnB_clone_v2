@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from time import sleep
 
 
 class FileStorage:
@@ -18,6 +19,7 @@ class FileStorage:
 
     def save(self):
         """Saves storage dictionary to file"""
+        print("########")
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
             temp.update(FileStorage.__objects)
@@ -36,27 +38,34 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+            'BaseModel': BaseModel,
+            'User': User,
+            'Place': Place,
+            'State': State,
+            'City': City,
+            'Amenity': Amenity,
+            'Review': Review
+        }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        """ """
+        """ Remove object from a stored file """
         try:
-            temp = {}
-            with open(FileStorage.__file_path, 'w+') as f:
+            with open(FileStorage.__file_path, 'r+') as f:
+                temp = {}
                 temp = json.load(f)
                 if temp[obj.__class__.__name__ + '.' + obj.id]:
                     del temp[obj.__class__.__name__ + '.' + obj.id]
+                    f.seek(0)
+                    f.truncate()
+
                 json.dump(temp, f)
         except FileNotFoundError:
             pass
