@@ -69,8 +69,10 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r+') as f:
                 temp = {}
                 temp = json.load(f)
-                if temp[obj.__class__.__name__ + '.' + obj.id]:
-                    del temp[obj.__class__.__name__ + '.' + obj.id]
+                object_ = obj.__class__.__name__ + '.' + obj.id
+                if temp[object_]:
+                    del temp[object_]
+                    del FileStorage.__objects[object_]
                     f.seek(0)
                     f.truncate()
 
