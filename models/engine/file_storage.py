@@ -71,19 +71,3 @@ class FileStorage:
             if temp in FileStorage.__objects:
                 del FileStorage.__objects[temp]
                 FileStorage.save(self)
-
-        """ try:
-            with open(FileStorage.__file_path, 'r+') as f:
-                temp = {}
-                temp = json.load(f)
-                object_ = obj.__class__.__name__ + '.' + obj.id
-
-                if temp[object_]:
-                    del temp[object_]
-                    del FileStorage.__objects[object_]
-                    f.seek(0)
-                    f.truncate()
-
-                json.dump(temp, f)
-        except FileNotFoundError:
-            pass """
