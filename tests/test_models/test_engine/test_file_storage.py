@@ -8,6 +8,7 @@ import json
 from console import HBNBCommand as hbnb
 from models.base_model import BaseModel
 from models import storage
+from time import sleep
 
 
 class test_fileStorage(unittest.TestCase):
@@ -109,5 +110,18 @@ class test_fileStorage(unittest.TestCase):
     def test_storage_var_created(self):
         """ FileStorage object storage created """
         from models.engine.file_storage import FileStorage
-        print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_remove(self):
+        """ Remove object """
+        new = BaseModel()
+        other = BaseModel()
+
+        test = 'BaseModel.' + new.id
+
+        storage.save()
+        storage.delete(other)
+
+        list_ = [val for val in storage.all(BaseModel) if test in val]
+
+        self.assertTrue(list_)
