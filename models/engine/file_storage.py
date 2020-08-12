@@ -13,7 +13,7 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls:
             objects = {}
-            for key, val in FileStorage.__objects.items():
+            for key, val in self.__objects.items():
                 class_ = key.split('.')
                 if cls.__name__ == class_[0]:
                     objects[key] = val
