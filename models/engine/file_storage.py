@@ -65,11 +65,19 @@ class FileStorage:
 
     def delete(self, obj=None):
         """ Remove object from a stored file """
-        try:
+
+        if obj is not None:
+            temp = obj.__class__.__name__ + '.' + obj.id
+            if temp in FileStorage.__objects:
+                del FileStorage.__objects[temp]
+                FileStorage.save(self)
+
+        """ try:
             with open(FileStorage.__file_path, 'r+') as f:
                 temp = {}
                 temp = json.load(f)
                 object_ = obj.__class__.__name__ + '.' + obj.id
+
                 if temp[object_]:
                     del temp[object_]
                     del FileStorage.__objects[object_]
@@ -78,4 +86,4 @@ class FileStorage:
 
                 json.dump(temp, f)
         except FileNotFoundError:
-            pass
+            pass """
