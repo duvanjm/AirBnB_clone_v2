@@ -6,6 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from models.__init__ import storage
 from sqlalchemy import Colum
 from sqlalchemy import String
+from sqlalchemy import DateTime
+from os import getenv
 
 
 Base = declarative_base()
@@ -13,32 +15,41 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
-    pass
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        id = Colum(
+            String(60),
+            nullable=False,
+            primary_key=True
+        )
+        created_at = Colum(
+            DateTime,
+            nullable=False,
+            default=datetime.utcnow()
+        )
+        updated_at = Colum(
+            DateTime,
+            nullable=False,
+            default=datetime.utcnow()
+        )
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
-            self.id = Colum(
-                String(60),
-                nullable=False,
-                primary_key=True
-            )
-            self.created_at = Colum(
-                String(60),
-                nullable=False,
-                default=datetime.utcnow()
-            )
-            self.updated_at = Colum(
-                String(60),
-                nullable=False,
-                default=datetime.utcnow()
-            )
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             del kwargs['__class__']
+            if kwargs['created_at']:
+                del kwargs['created_at']
+            if kwargs['updated_at']:
+                del kwargs['updated_at']
+            for key, val in kwargs.items():
+                setattr(self, key, val)
             self.__dict__.update(kwargs)
 
     def __str__(self):
