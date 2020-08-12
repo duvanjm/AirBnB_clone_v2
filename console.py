@@ -4,6 +4,8 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
+from models.__init__ import classes
+
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -18,11 +20,6 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes"""
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    classes = {
-        'BaseModel': BaseModel, 'User': User, 'Place': Place,
-        'State': State, 'City': City, 'Amenity': Amenity,
-        'Review': Review
-    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
         'number_rooms': int, 'number_bathrooms': int,
