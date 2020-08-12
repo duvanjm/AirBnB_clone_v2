@@ -120,8 +120,8 @@ class test_fileStorage(unittest.TestCase):
         test = 'BaseModel.' + new.id
 
         storage.save()
-        storage.delete(other)
+        storage.delete(new)
 
         list_ = [val for val in storage.all(BaseModel) if test in val]
 
-        self.assertTrue(list_)
+        self.assertFalse(list_)
