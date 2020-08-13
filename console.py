@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        obj = eval(list_[0])()
+        obj = eval('{}()'.format(list_[0]))
         for arg in list_[1:]:
             param = arg.split('=')
             key = param[0]
