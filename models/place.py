@@ -62,6 +62,17 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
+    """ @property
+    def reviews(self):
+        """Method getter setter for return Cities
+        instance of current state_id"""
+        reviews = []
+        objs = models.storage.all(models.review.Review)
+        for val in objs:
+            if objs[key].place_id is self.id:
+                cities.append(objs[key])
+        return reviews """
+
     def __init__(self, *args, **kwargs):
         """ initializes obj place """
         super().__init__(*args, **kwargs)
