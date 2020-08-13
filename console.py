@@ -2,10 +2,10 @@
 """ Console Module """
 import cmd
 import sys
-from models import storage
+from models.__init__ import storage
 from models import classes
-from models.state import State
 from models.city import City
+from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
