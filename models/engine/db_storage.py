@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This module defines a class to manage db storage for hbnb clone"""
 from models.base_model import Base
+from models.state import State
+from models.city import City
 from models import classes
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -30,7 +32,23 @@ class DBStorage:
 
     def all(self, cls=None):
         """ query on the current database session - optional, filter by cls"""
-        dict_ = {}
+
+        d = {}
+
+        if cls:
+            obj = self.__session.query(cls).all()
+        else:
+            mycls = ['State', 'City']
+            obj = []
+            for namecls in mycls:
+                for o in self.__session.query(eval(namecls)):
+                    obj.append(o)
+        for item in obj:
+            k = type(item).__name__ + '.' + str(item.id)
+            d[k] = item
+        return d
+
+        """ dict_ = {}
 
         if cls:
             query = self.__session.query(cls).all()
@@ -43,7 +61,7 @@ class DBStorage:
                 for obj in query:
                     delattr(obj, '_sa_instance_state')
                     dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        return dict_
+        return dict_ """
 
     def new(self, obj):
         """ add the object to the current database session """
