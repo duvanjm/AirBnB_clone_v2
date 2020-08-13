@@ -23,7 +23,7 @@ class City(BaseModel, Base):
             ForeignKey('states.id'),
             nullable=False
         )
-        places = relationship('Place', backref='cities')
+        place = relationship("Place", cascade="all, delete", backref='cities')
     else:
         name = ''
         state_id = ''
