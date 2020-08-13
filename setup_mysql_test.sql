@@ -4,9 +4,7 @@ CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 CREATE USER IF NOT EXISTS 'hbnb_test' @'localhost';
 
 SET
-    PASSWORD FOR 'hbnb_dev' @'localhost' = PASSWORD('hbnb_dev_pwd');
-
-GRANT USAGE ON *.* TO 'hbnb_dev' @'localhost';
+    PASSWORD FOR 'hbnb_test' @'localhost' = PASSWORD('hbnb_test');
 
 GRANT USAGE ON *.* TO 'hbnb_test' @'localhost';
 
