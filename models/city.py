@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
 from os import getenv
+from sqlalchemy.orm import relationship
 
 
 class City(BaseModel, Base):
@@ -22,6 +23,11 @@ class City(BaseModel, Base):
             ForeignKey('states.id'),
             nullable=False
         )
+        places = relationship('Place', backref='cities')
     else:
         name = ''
         state_id = ''
+
+    def __init__(self, *args, **kwargs):
+        """ initializes obj city """
+        super().__init__(*args, **kwargs)
