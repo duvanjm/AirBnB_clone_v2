@@ -38,7 +38,7 @@ class DBStorage:
                 delattr(obj, '_sa_instance_state')
                 dict_[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
-            for key, value in classes:
+            for key, value in classes.items():
                 query = self.__session.query(key).all()
                 for obj in query:
                     delattr(obj, '_sa_instance_state')
