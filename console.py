@@ -5,6 +5,7 @@ import sys
 from models import storage
 from models import classes
 from models.state import State
+from models.city import City
 
 
 class HBNBCommand(cmd.Cmd):
@@ -199,14 +200,14 @@ class HBNBCommand(cmd.Cmd):
 
         objects = storage.all()
         my_list = []
-        if not line:
+        if not args:
             for key in objects:
                 my_list.append(str(objects[key]))
             print(my_list)
             return
         try:
-            args = line.split(" ")
-            if args[0] not in self.classes:
+            args = args.split(" ")
+            if args[0] not in classes:
                 raise NameError()
             for key in objects:
                 name = key.split('.')
