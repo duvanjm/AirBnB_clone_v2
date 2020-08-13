@@ -7,6 +7,7 @@ from models import classes
 from models.city import City
 from models.state import State
 from models.place import Place
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):

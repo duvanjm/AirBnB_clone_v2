@@ -9,6 +9,7 @@ from models.amenity import Amenity
 from models.review import Review
 
 classes = {
+    'User': User,
     'City': City,
     'State': State,
     'Place': Place
