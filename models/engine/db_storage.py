@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """This module defines a class to manage db storage for hbnb clone"""
-from sqlalchemy import (create_engine)
 from models.base_model import Base
+from models import classes
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
-from models import classes
-import os
+from os import getenv
 
 
 class DBStorage:
@@ -16,19 +16,17 @@ class DBStorage:
     def __init__(self):
         """ create engine """
         self.__engine = create_engine(
-            'mysql+mysqldb:://{}:{}@{}/{}'.format(
-                os.environ['HBNB_MYSQL_USER'],
-                os.environ['HBNB_MYSQL_PWD'],
-                os.environ['HBNB_MYSQL_HOST'],
-                os.environ['HBNB_MYSQL_DB']
+            'mysql+mysqldb://{}:{}@{}/{}'.format(
+                getenv('HBNB_MYSQL_USER'),
+                getenv('HBNB_MYSQL_PWD'),
+                getenv('HBNB_MYSQL_HOST'),
+                getenv('HBNB_MYSQL_DB')
             ),
             pool_pre_ping=True
         )
 
-        if os.environ['HBNB_ENV'] == 'test':
-            print("##### HBNB_ENV == test #####")
-            """ Base.metadata = MetaData()
-            Base.metadata.drop(self.__engine) """
+        if getenv('HBNB_ENV') == 'test':
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ query on the current database session - optional, filter by cls"""
@@ -62,8 +60,9 @@ class DBStorage:
 
     def reload(self):
         """  """
-        self.__session = sessionmaker(
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(
             bind=self.__engine,
             expire_on_commit=False
-        )()
-        Session = scoped_session(self.__session)
+        )
+        self.__session = scoped_session(session_factory)
