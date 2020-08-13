@@ -6,6 +6,7 @@ from models.__init__ import storage
 from models import classes
 from models.city import City
 from models.state import State
+from models.place import Place
 
 
 class HBNBCommand(cmd.Cmd):
