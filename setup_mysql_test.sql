@@ -1,17 +1,16 @@
 -- script that prepares a MySQL server for the project
 CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 
-CREATE USER IF NOT EXISTS hbnb_test @localhost IDENTIFIED BY 'hbnb_test_pwd';
+CREATE USER IF NOT EXISTS 'hbnb_test' @'localhost';
 
-GRANT
-USAGE
-    ON *.*
-    TO 'hbnb_test' @'localhost';
+SET
+    PASSWORD FOR 'hbnb_dev' @'localhost' = PASSWORD('hbnb_dev_pwd');
 
-GRANT
-ALL PRIVILEGES
-    ON hbnb_test_db.*
-    TO 'hbnb_test'@'localhost';
+GRANT USAGE ON *.* TO 'hbnb_dev' @'localhost';
+
+GRANT USAGE ON *.* TO 'hbnb_test' @'localhost';
+
+GRANT ALL PRIVILEGES ON hbnb_test_db.* TO 'hbnb_test' @'localhost';
 
 GRANT
 SELECT
