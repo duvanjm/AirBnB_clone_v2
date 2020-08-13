@@ -5,7 +5,6 @@ from models.state import State
 from models.city import City
 from models.place import Place
 from models import classes
-from models.review import Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
@@ -41,7 +40,7 @@ class DBStorage:
         if cls:
             obj = self.__session.query(cls).all()
         else:
-            mycls = ['State', 'City', 'User', 'Place', 'Review']
+            mycls = ['State', 'City']
             obj = []
             for namecls in mycls:
                 for o in self.__session.query(eval(namecls)):
