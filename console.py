@@ -2,16 +2,8 @@
 """ Console Module """
 import cmd
 import sys
-from models.base_model import BaseModel
-from models.__init__ import storage
-from models.__init__ import classes
-
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
+from models import storage
+from models import classes
 
 
 class HBNBCommand(cmd.Cmd):
@@ -116,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         list_ = args.split(" ")
-        if list_[0] not in HBNBCommand.classes:
+        if list_[0] not in classes:
             print("** class doesn't exist **")
             return
 
@@ -149,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if c_name not in HBNBCommand.classes:
+        if c_name not in classes:
             print("** class doesn't exist **")
             return
 
@@ -180,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if c_name not in HBNBCommand.classes:
+        if c_name not in classes:
             print("** class doesn't exist **")
             return
 
@@ -207,7 +199,7 @@ class HBNBCommand(cmd.Cmd):
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args"""
-            if args not in HBNBCommand.classes:
+            if args not in classes:
                 print("** class doesn't exist **")
                 return
             for k, v in storage._FileStorage__objects.items():
@@ -247,7 +239,7 @@ class HBNBCommand(cmd.Cmd):
         else:  # class name not present"""
             print("** class name missing **")
             return
-        if c_name not in HBNBCommand.classes:  # class name invalid"""
+        if c_name not in classes:  # class name invalid"""
             print("** class doesn't exist **")
             return
 
