@@ -4,6 +4,7 @@ import cmd
 import sys
 from models import storage
 from models import classes
+from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
@@ -112,12 +113,12 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        obj = eval("{}()".format(list_[0]))
+        obj = eval(list_[0])()
         for arg in list_[1:]:
             param = arg.split('=')
             key = param[0]
             value = param[1]
-            val_replace = value.replace("_", " ").replace('"', "")
+            val_replace = value.replace("_", " ")
             setattr(obj, key, val_replace)
         obj.save()
         print("{}".format(obj.id))
@@ -195,10 +196,30 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
+
+        objects = storage.all()
+        my_list = []
+        if not line:
+            for key in objects:
+                my_list.append(str(objects[key]))
+            print(my_list)
+            return
+        try:
+            args = line.split(" ")
+            if args[0] not in self.classes:
+                raise NameError()
+            for key in objects:
+                name = key.split('.')
+                if name[0] == args[0]:
+                    my_list.append(str(objects[key]))
+            print(my_list)
+        except NameError:
+            print("** class doesn't exist **")
+
+        """ print_list = []
 
         if args:
-            args = args.split(' ')[0]  # remove possible trailing args"""
+            args = args.split(' ')[0]  # remove possible trailing args
             if args not in classes:
                 print("** class doesn't exist **")
                 return
@@ -209,7 +230,7 @@ class HBNBCommand(cmd.Cmd):
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
-        print(print_list)
+        print(print_list) """
 
     def help_all(self):
         """ Help information for the all command """
