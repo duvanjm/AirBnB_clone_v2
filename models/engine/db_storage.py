@@ -33,7 +33,7 @@ class DBStorage:
     def all(self, cls=None):
         """ query on the current database session - optional, filter by cls"""
 
-        d = {}
+        """ d = {}
 
         if cls:
             obj = self.__session.query(cls).all()
@@ -46,9 +46,9 @@ class DBStorage:
         for item in obj:
             k = type(item).__name__ + '.' + str(item.id)
             d[k] = item
-        return d
+        return d """
 
-        """ dict_ = {}
+        dict_ = {}
 
         if cls:
             query = self.__session.query(cls).all()
@@ -61,7 +61,7 @@ class DBStorage:
                 for obj in query:
                     delattr(obj, '_sa_instance_state')
                     dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        return dict_ """
+        return dict_
 
     def new(self, obj):
         """ add the object to the current database session """
