@@ -92,7 +92,7 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-    @property
+    """ @property
     def reviews(self):
         """Method getter setter for return Cities
         instance of current state_id"""
@@ -101,7 +101,7 @@ class Place(BaseModel, Base):
         for val in objs:
             if objs[key].place_id is self.id:
                 cities.append(objs[key])
-        return reviews
+        return reviews """
 
     def __init__(self, *args, **kwargs):
         """ initializes obj place """
