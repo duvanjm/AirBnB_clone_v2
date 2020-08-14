@@ -68,6 +68,5 @@ class FileStorage:
 
         if obj is not None:
             temp = obj.__class__.__name__ + '.' + obj.id
-            if temp in FileStorage.__objects:
-                del FileStorage.__objects[temp]
-                FileStorage.save(self)
+            FileStorage.__objects.pop(temp, None)
+            FileStorage.save(self)
