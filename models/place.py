@@ -5,6 +5,31 @@ from os import getenv
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table(
+        'place_amenity',
+        Base.metadata,
+        Column(
+            'place_id',
+            String(60),
+            ForeignKey(
+                'places.id',
+                onupdate='CASCADE',
+                ondelete='CASCADE'),
+            primary_key=True
+        ),
+        Column(
+            'amenity_id',
+            String(60),
+            ForeignKey(
+                'amenities.id',
+                onupdate='CASCADE',
+                ondelete='CASCADE'),
+            primary_key=True
+        )
+    )
+
+
 class Place(BaseModel, Base):
     """ A place to stay """
 
@@ -48,6 +73,11 @@ class Place(BaseModel, Base):
         )
         latitude = Column(Float)
         longitude = Column(Float)
+        reviews = relationship('Review', backref='place')
+        amenities = relationship(
+            'Amenity', secondary='place_amenity',
+            backref='place_amenities', viewonly=False
+        )
 
     else:
         city_id = ""
