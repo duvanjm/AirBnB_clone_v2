@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from time import sleep
 
 
 class FileStorage:
@@ -12,7 +13,7 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls:
             objects = {}
-            for key, val in FileStorage.__objects.items():
+            for key, val in self.__objects.items():
                 class_ = key.split('.')
                 if cls.__name__ == class_[0]:
                     objects[key] = val
@@ -23,17 +24,10 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
-
-    """ def save(self):
-        a_dict = {}
-        for key in self.__objects:
-            a_dict[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, mode="w",
-                  encoding="utf-8") as a_file:
-            json.dump(a_dict, a_file) """
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
+        """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
             temp.update(FileStorage.__objects)
@@ -74,5 +68,6 @@ class FileStorage:
 
         if obj is not None:
             temp = obj.__class__.__name__ + '.' + obj.id
-            FileStorage.__objects.pop(temp, None)
-            FileStorage.save(self)
+            if temp in FileStorage.__objects:
+                del FileStorage.__objects[temp]
+                FileStorage.save(self)
