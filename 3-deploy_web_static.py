@@ -1,14 +1,28 @@
 #!/usr/bin/python3
-"""distributes an archive to
-your web servers, using the
-function do_deploy"""
+"""reates and distributes an archive
+to your web servers, using the function deploy"""
 
 import os.path
 from fabric.api import env
 from fabric.api import run
 from fabric.api import put
+from fabric.api import local
+from datetime import datetime
 
 env.hosts = ["104.196.204.4", "35.231.4.186"]
+
+
+def do_pack():
+    """create a .tgz file"""
+    filename = (datetime.now().strftime('%Y%m%d%H%M%S'))
+    filename = "web_static_" + filename + ".tgz"
+    local('mkdir -p versions')
+    result = local('tar -cvzf versions/{} web_static/'.format(filename))
+    if result.succeeded:
+        path = "versions/{}".format(filename)
+        return (path)
+    else:
+        return None
 
 
 def do_deploy(archive_path):
@@ -44,3 +58,12 @@ def do_deploy(archive_path):
            format(filename)).failed is True:
         return False
     return True
+
+def deploy():
+    """create a .tgz file"""
+    file_path = do_pack()
+    print ("\n======THIS IS THE FILE PATH=======>{}\n".format(file_path))
+    if file_path is None:
+        return False
+    result = do_deploy(file_path)
+    return result 
