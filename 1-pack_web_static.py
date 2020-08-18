@@ -6,6 +6,7 @@ from fabric.api import local
 
 
 def do_pack():
+    """create .tgz file"""
     tt = time.strftime("%Y%m%d%H%M%S")
     try:
         local("mkdir -p versions")
