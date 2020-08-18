@@ -9,6 +9,7 @@ from fabric.api import put
 from fabric.api import local
 from datetime import datetime
 
+
 env.hosts = ["104.196.204.4", "35.231.4.186"]
 
 
@@ -59,11 +60,12 @@ def do_deploy(archive_path):
         return False
     return True
 
+
 def deploy():
     """create a .tgz file"""
     file_path = do_pack()
-    print ("\n======THIS IS THE FILE PATH=======>{}\n".format(file_path))
+    print("\n======THIS IS THE FILE PATH=======>{}\n".format(file_path))
     if file_path is None:
         return False
     result = do_deploy(file_path)
-    return result 
+    return result
