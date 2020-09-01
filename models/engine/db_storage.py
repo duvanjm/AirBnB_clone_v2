@@ -50,21 +50,6 @@ class DBStorage:
             d[k] = item
         return d
 
-        """ dict_ = {}
-
-        if cls:
-            query = self.__session.query(cls).all()
-            for obj in query:
-                delattr(obj, '_sa_instance_state')
-                dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        else:
-            for key, value in classes.items():
-                query = self.__session.query(key).all()
-                for obj in query:
-                    delattr(obj, '_sa_instance_state')
-                    dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        return dict_ """
-
     def new(self, obj):
         """ add the object to the current database session """
         self.__session.add(obj)
@@ -79,10 +64,14 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """  """
+        """reload a"""
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(
             bind=self.__engine,
             expire_on_commit=False
         )
         self.__session = scoped_session(session_factory)
+
+    def close(self):
+        """call remove() method on the private session attribute"""
+        self.__session.remove()

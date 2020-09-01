@@ -19,3 +19,14 @@ class State(BaseModel, Base):
         )
     else:
         name = ''
+
+    @property
+    def cities(self):
+        """return the list of City objects
+        from storage linked to the current State"""
+        list_ = []
+        sta = storage.all(City)
+        for k, v in sta:
+            if self.id == v.state_id:
+                list_.append(v)
+        return list_
