@@ -3,13 +3,21 @@
 import cmd
 import sys
 from models.__init__ import storage
-from models import classes
 from models.city import City
 from models.state import State
 from models.place import Place
 from models.user import User
 from models.review import Review
 
+
+classes = {
+    'User': User,
+    'City': City,
+    'State': State,
+    'Place': Place,
+    'Review': Review,
+    'Amenity': Amenity
+}
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
