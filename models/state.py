@@ -6,15 +6,15 @@ from models.city import City
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
-from os import getenv
 import models
+from os import getenv
 
 
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
+    if models.storage == 'db':
         name = Column(
             String(128),
             nullable=False
@@ -22,13 +22,15 @@ class State(BaseModel, Base):
     else:
         name = ''
 
-    @property
-    def cities(self):
-        """return the list of City objects
-        from storage linked to the current State"""
-        list_ = []
-        sta = models.storage.all(City)
-        for k, v in sta:
-            if v.state_id == self.id:
-                list_.append(v)
-        return list_
+    if models.storage != 'db':
+        @property
+        def cities(self):
+            """return the list of City objects
+            from storage linked to the current State"""
+            list_ = []
+            sta = models.storage.all(City)
+
+            for v in sta.values():
+                if v.state_id == self.id:
+                    list_.append(v)
+            return list_
