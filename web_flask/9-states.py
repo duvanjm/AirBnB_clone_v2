@@ -13,21 +13,24 @@ def teardown(self):
     storage.close()
 
 
-@app.route("/states_list", strict_slashes=False)
+@app.route("states_list", strict_slashes=False)
+@app.route("/states", strict_slashes=False)
 def state_l():
     """display a HTML page"""
     state = storage.all(State).values()
-    return render_template("7-states_list.html", states=state)
+    return render_template('7-states_list.html', states=state)
 
 
-@app.route("/cities_by_states", strict_slashes=False)
-def cities_by_states():
-    """display a HTML page"""
-    states_city = {
-        "states": storage.all(State).values(),
-        "cities": storage.all(City).values()
-    }
-    return render_template("8-cities_by_states.html", **states_city)
+@app.route("/states/<id>", strict_slashes=False)
+def states_id(id):
+    """/states/<id>: display a HTML page:"""
+    states = storage.all(State)
+    item = "State.{}".format(id)
+    if item in states:
+        state = states[item]
+    else:
+        state = None
+    return render_template("9-states.html", state=state)
 
 
 if __name__ == "__main__":
