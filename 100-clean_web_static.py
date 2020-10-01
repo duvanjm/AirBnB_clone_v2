@@ -71,9 +71,9 @@ def deploy():
     result = do_deploy(file_path)
     return result
 
+
 def do_clean(number=0):
-    """ Deletes out-of-date archives. Cleans old archives
-    """
+    """Keep it clean!"""
     number = int(number)
     with lcd('versions'):
         if number == 0 or number == 1:
